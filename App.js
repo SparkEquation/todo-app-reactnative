@@ -8,9 +8,11 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
-  View
 } from 'react-native';
+import { Provider } from 'react-redux'
+import configureStore from './app/store/configureStore'
+import TodoPage from "./app/pages/TodoPage"
+
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,19 +23,18 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  constructor() {
+    super()
+    this.state = {
+      store: configureStore()
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <Provider store={this.state.store}>
+        <TodoPage></TodoPage>
+      </Provider>
     );
   }
 }
